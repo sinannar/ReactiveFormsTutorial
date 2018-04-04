@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Address, Hero, states } from '../data-model';
 import { JsonPipe } from '@angular/common';
@@ -10,7 +10,7 @@ import { JsonPipe } from '@angular/common';
   templateUrl: './hero-detail.component.html',
   styleUrls: ['./hero-detail.component.css']
 })
-export class HeroDetailComponent implements OnInit {
+export class HeroDetailComponent implements OnInit, OnChanges {
   @Input() hero: Hero;
   heroForm: FormGroup;
   states = states;
@@ -22,6 +22,17 @@ export class HeroDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
+    this.rebuildForm();
+  }
+
+  rebuildForm() {
+    this.heroForm.reset({
+      name: this.hero.name,
+      address: this.hero.addresses[0] || new Address()
+    });
   }
 
   createForm() {
@@ -38,6 +49,8 @@ export class HeroDetailComponent implements OnInit {
   It will not accept a data object that doesn't match the FormGroup structure or is missing values for any control in the group.
   This way, it can return helpful error messages if you have a typo or if you've nested controls incorrectly.
   Conversely, patchValue() will fail silently.
+  With patchValue() you have more flexibility to cope with divergent data and form models.
+  But unlike setValue(), patchValue() cannot check for missing control values and doesn't throw helpful errors.
   */
   setValue() {
     this.heroForm.setValue({
