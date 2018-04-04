@@ -1,8 +1,10 @@
-<h2>Hero Detail</h2>
-<h3>
-  <i>A FormGroup with multiple FormControls</i>
-</h3>
-<form [formGroup]="heroForm">
+<form [formGroup]="heroForm" (ngSubmit)="onSubmit()">
+  <div style="margin-bottom: 1em">
+    <button type="submit" [disabled]="heroForm.pristine" class="btn btn-success">Save</button> &nbsp;
+    <button type="button" (click)="revert()" [disabled]="heroForm.pristine" class="btn btn-danger">Revert</button>
+  </div>
+
+  <!-- Hero Detail Controls -->
   <div class="form-group">
     <label class="center-block">Name:
       <input class="form-control" formControlName="name">
@@ -40,15 +42,8 @@
       <br>
       <!-- End of the repeated address template -->
     </div>
+    <button (click)="addLair()" type="button">Add a Secret Lair</button>
   </div>
-
-  <div style="margin-bottom: 1em">
-    <button type="submit"
-            [disabled]="heroForm.pristine" class="btn btn-success">Save</button> &nbsp;
-    <button type="button" (click)="revert()"
-            [disabled]="heroForm.pristine" class="btn btn-danger">Revert</button>
-  </div>
-
   <div class="form-group radio">
     <h4>Super power:</h4>
     <label class="center-block">
@@ -65,18 +60,7 @@
   </div>
 </form>
 
-<button (click)="addLair()" type="button">Add a Secret Lair</button>
-
-<p>Form value: {{ heroForm.value | json }}</p>
+<p>heroForm value: {{ heroForm.value | json}}</p>
 
 <h4>Name change log</h4>
 <div *ngFor="let name of nameChangeLog">{{name}}</div>
-
-<!-- <p>Name value: {{ heroForm.get('name').value }}</p> -->
-<!-- <p>Street value: {{ heroForm.get('address.street').value}}</p> -->
-
-
-<!-- <button (click)="setValue()">setValue</button>
-<button (click)="cleanValue()">cleanValue</button>
-<button (click)="patchName()">patchName</button>
-<button (click)="patchNameAndAdress()">patchNameAndAdress</button> -->

@@ -1,53 +1,52 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
-import { FormControl, FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Address, Hero, states } from '../data-model';
-import { JsonPipe } from '@angular/common';
-import { HeroService }           from '../hero.service';
+import { Component, Input, OnChanges } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-// https://angular.io/guide/reactive-forms#the-data-model-and-the-form-model
+import { Address, Hero, states } from '../data-model';
+import { HeroService } from '../hero.service';
 
 @Component({
   selector: 'app-hero-detail',
   templateUrl: './hero-detail.component.html',
   styleUrls: ['./hero-detail.component.css']
 })
-export class HeroDetailComponent implements OnInit, OnChanges {
+
+export class HeroDetailComponent implements OnChanges {
   @Input() hero: Hero;
 
   heroForm: FormGroup;
+  nameChangeLog: string[] = [];
   states = states;
 
-  nameChangeLog: string[] = [];
-
-  constructor(private fb: FormBuilder, private heroService: HeroService) {
+  constructor(
+    private fb: FormBuilder,
+    private heroService: HeroService) {
 
     this.createForm();
     this.logNameChange();
-
   }
 
-  ngOnInit() {
+  createForm() {
+    this.heroForm = this.fb.group({
+      name: '',
+      secretLairs: this.fb.array([]),
+      power: '',
+      sidekick: ''
+    });
   }
 
   ngOnChanges() {
-    console.log('ngOnChanges');
     this.rebuildForm();
   }
 
   rebuildForm() {
     this.heroForm.reset({
-      name: this.hero.name,
+      name: this.hero.name
     });
     this.setAddresses(this.hero.addresses);
   }
 
-  createForm() {
-    this.heroForm = this.fb.group({ // <-- the parent FormGroup
-      name: ['', Validators.required],
-      secretLairs: this.fb.array([]), // <-- secretLairs as an empty FormArray
-      power: '',
-      sidekick: ''
-    });
+  get secretLairs(): FormArray {
+    return this.heroForm.get('secretLairs') as FormArray;
   }
 
   setAddresses(addresses: Address[]) {
@@ -56,19 +55,14 @@ export class HeroDetailComponent implements OnInit, OnChanges {
     this.heroForm.setControl('secretLairs', addressFormArray);
   }
 
-  get secretLairs(): FormArray {
-    return this.heroForm.get('secretLairs') as FormArray;
-  }
-
   addLair() {
     this.secretLairs.push(this.fb.group(new Address()));
   }
 
-  logNameChange() {
-    const nameControl = this.heroForm.get('name');
-    nameControl.valueChanges.forEach(
-      (value: string) => this.nameChangeLog.push(value)
-    );
+  onSubmit() {
+    this.hero = this.prepareSaveHero();
+    this.heroService.updateHero(this.hero).subscribe(/* error handling */);
+    this.rebuildForm();
   }
 
   prepareSaveHero(): Hero {
@@ -90,50 +84,12 @@ export class HeroDetailComponent implements OnInit, OnChanges {
     return saveHero;
   }
 
-  onSubmit() {
-    this.hero = this.prepareSaveHero();
-    this.heroService.updateHero(this.hero).subscribe(/* error handling */);
-    this.rebuildForm();
-  }
-
   revert() { this.rebuildForm(); }
 
-
-  /*
-  The setValue() method checks the data object thoroughly before assigning any form control values.
-  It will not accept a data object that doesn't match the FormGroup structure or is missing values for any control in the group.
-  This way, it can return helpful error messages if you have a typo or if you've nested controls incorrectly.
-  Conversely, patchValue() will fail silently.
-  With patchValue() you have more flexibility to cope with divergent data and form models.
-  But unlike setValue(), patchValue() cannot check for missing control values and doesn't throw helpful errors.
-  */
-  setValue() {
-    // this.heroForm.setValue({
-    //   name: this.hero.name,
-    //   secretLairs: this.setAddresses(this.hero.addresses),
-    //   power: 'strength',
-    //   sidekick: 'true'
-    // });
+  logNameChange() {
+    const nameControl = this.heroForm.get('name');
+    nameControl.valueChanges.forEach(
+      (value: string) => this.nameChangeLog.push(value)
+    );
   }
-
-  cleanValue() {
-    // this.heroForm.setValue({
-    //   name: '',
-    //   secretLairs: this.fb.array([]),
-    //   power: '',
-    //   sidekick: ''
-    // });
-  }
-
-  patchName() {
-    // this.heroForm.patchValue({ name: this.hero.name });
-  }
-
-  patchNameAndAdress() {
-    // this.heroForm.patchValue({
-    //   name: this.hero.name,
-    // });
-    // this.setAddresses(this.hero.addresses);
-  }
-
 }
