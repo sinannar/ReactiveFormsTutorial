@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
-import { HeroService }         from './hero.service';
+import { HeroService } from './hero.service';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { HeroService }         from './hero.service';
     HeroDetailComponent,
     HeroListComponent // <-- export HeroListComponent
   ],
-  providers: [HeroService ],
+  providers: [HeroService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

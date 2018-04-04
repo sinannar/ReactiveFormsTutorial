@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Address, Hero, states } from '../data-model';
 import { JsonPipe } from '@angular/common';
@@ -15,7 +15,7 @@ export class HeroDetailComponent implements OnInit {
   heroForm: FormGroup;
   states = states;
 
-  constructor(private _builder: FormBuilder) {
+  constructor(private fb: FormBuilder) {
 
     this.createForm();
 
@@ -24,37 +24,19 @@ export class HeroDetailComponent implements OnInit {
   ngOnInit() {
   }
 
-  initHero() {
-    this.hero = {
-      id: 1,
-      name: 'Whirlwind',
-      addresses: [
-        { street: '123 Main', city: 'Anywhere', state: 'CA', zip: '94801' },
-        { street: '456 Maple', city: 'Somewhere', state: 'VA', zip: '23226' },
-      ],
-    }
-  }
-
-  callSetValue() {
-    console.log("Form value:"+( JSON.stringify(this.heroForm.value)))
-
-    this.heroForm.patchValue({
-      name: this.hero.name,
-    });
-    this.heroForm.patchValue({
-      address: { street: '123 Main', city: 'Anywhere', state: 'CA', zip: '94801' }
-    });
-
-    console.log("Form value:"+( JSON.stringify(this.heroForm.value)))
-  }
-
   createForm() {
-    this.heroForm = this._builder.group({ // <-- the parent FormGroup
-      name: ['', Validators.required],
-      address: this._builder.group(new Address()),
+    this.heroForm = this.fb.group({ // <-- the parent FormGroup
+      name: ['', Validators.required ],
+      address: this.fb.group({ // <-- the child FormGroup
+        street: '',
+        city: '',
+        state: '',
+        zip: ''
+      }),
       power: '',
       sidekick: ''
     });
   }
+
 
 }

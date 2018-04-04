@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable }        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 
-import { Hero }        from '../data-model';
+import { Hero } from '../data-model';
 import { HeroService } from '../hero.service';
 
 @Component({
@@ -22,8 +22,8 @@ export class HeroListComponent implements OnInit {
   getHeroes() {
     this.isLoading = true;
     this.heroes = this.heroService.getHeroes()
-                      // Todo: error handling
-                      .finally(() => this.isLoading = false);
+      // Todo: error handling
+      .finally(() => this.isLoading = false);
     this.selectedHero = undefined;
   }
 
