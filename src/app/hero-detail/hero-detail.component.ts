@@ -27,12 +27,7 @@ export class HeroDetailComponent implements OnInit {
   createForm() {
     this.heroForm = this.fb.group({ // <-- the parent FormGroup
       name: ['', Validators.required ],
-      address: this.fb.group({ // <-- the child FormGroup
-        street: '',
-        city: '',
-        state: '',
-        zip: ''
-      }),
+      address: this.fb.group(new Address()),
       power: '',
       sidekick: ''
     });
