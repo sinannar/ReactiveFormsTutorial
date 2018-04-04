@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { states } from '../data-model';
+import { Address, Hero, states } from '../data-model';
 
 // https://angular.io/guide/reactive-forms#the-data-model-and-the-form-model
 
@@ -23,12 +23,7 @@ export class HeroDetailComponent implements OnInit {
   createForm() {
     this.heroForm = this._builder.group({ // <-- the parent FormGroup
       name: ['', Validators.required ],
-      address: this._builder.group({ // <-- the child FormGroup
-        street: '',
-        city: '',
-        state: '',
-        zip: ''
-      }),
+      address: this._builder.group( new Address()),
       power: '',
       sidekick: ''
     });
