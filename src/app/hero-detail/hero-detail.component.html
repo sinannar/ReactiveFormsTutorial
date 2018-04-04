@@ -1,7 +1,9 @@
 <h2>Hero Detail</h2>
+<hr>
 <h3>
   <i>A FormGroup with multiple FormControls</i>
 </h3>
+<hr>
 <form [formGroup]="heroForm">
   <div class="form-group">
     <label class="center-block">Name:
@@ -49,7 +51,16 @@
   </div>
 </form>
 
+<hr>
+<hr>
+<hr>
 
+<button class="button" (click)="callSetValue()">callSetValue</button>
+<button class="button" (click)="initHero()">initHero</button>
+
+<hr>
+<hr>
+<hr>
 
 <p>Form value: {{ heroForm.value | json }}</p>
 <p>Form pristine: {{ heroForm.pristine | json }}</p>
@@ -60,11 +71,18 @@
 <p>Street value: {{ heroForm.get('address').get('street').value}}</p>
 
 
-<!-- Property	Description
+<!-- 
+  
+https://angular.io/api/forms/AbstractControl
+
+Property	            Description
 myControl.value	    : the value of a FormControl.
 
 myControl.status    : the validity of a FormControl. Possible values: VALID, INVALID, PENDING, or DISABLED.
 
 myControl.pristine	: true if the user has not changed the value in the UI. Its opposite is myControl.dirty.
 
-myControl.untouched	: true if the control user has not yet entered the HTML control and triggered its blur event. Its opposite is myControl.touched. -->
+myControl.untouched	: true if the control user has not yet entered the HTML control and triggered its blur event. Its opposite is myControl.touched. 
+
+
+-->

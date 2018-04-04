@@ -1,0 +1,11 @@
+<nav>
+  <div *ngFor="let hero of heroes | async">
+
+    <a (click)="select(hero)">{{hero.name}}</a>
+    <hr>
+  </div>
+</nav>
+
+<div *ngIf="selectedHero">
+  <app-hero-detail [hero]="selectedHero"></app-hero-detail>
+</div>
