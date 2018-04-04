@@ -26,12 +26,37 @@ export class HeroDetailComponent implements OnInit {
 
   createForm() {
     this.heroForm = this.fb.group({ // <-- the parent FormGroup
-      name: ['', Validators.required ],
+      name: ['', Validators.required],
       address: this.fb.group(new Address()),
       power: '',
       sidekick: ''
     });
   }
+
+  /*
+  The setValue() method checks the data object thoroughly before assigning any form control values.
+  It will not accept a data object that doesn't match the FormGroup structure or is missing values for any control in the group.
+  This way, it can return helpful error messages if you have a typo or if you've nested controls incorrectly.
+  Conversely, patchValue() will fail silently.
+  */
+  setValue() {
+    this.heroForm.setValue({
+      name: this.hero.name,
+      address: this.hero.addresses[0] || new Address(),
+      power: 'strength',
+      sidekick: 'true'
+    });
+  }
+
+  cleanValue() {
+    this.heroForm.setValue({
+      name: '',
+      address: new Address(),
+      power: '',
+      sidekick: ''
+    });
+  }
+
 
 
 }

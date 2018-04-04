@@ -9,7 +9,7 @@ import { Hero, heroes } from './data-model';
 @Injectable()
 export class HeroService {
 
-  delayMs = 3500;
+  delayMs = 500;
 
   // Fake server get; assume nothing can go wrong
   getHeroes(): Observable<Hero[]> {

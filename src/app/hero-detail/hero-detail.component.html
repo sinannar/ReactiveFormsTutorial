@@ -50,3 +50,7 @@
 <p>Form value: {{ heroForm.value | json }}</p>
 <p>Name value: {{ heroForm.get('name').value }}</p>
 <p>Street value: {{ heroForm.get('address.street').value}}</p>
+
+
+<button (click)="setValue()">setValue</button>
+<button (click)="cleanValue()">cleanValue</button>
