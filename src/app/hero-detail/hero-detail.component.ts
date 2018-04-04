@@ -57,6 +57,15 @@ export class HeroDetailComponent implements OnInit {
     });
   }
 
+  patchName() {
+    this.heroForm.patchValue({ name: this.hero.name });
+  }
 
+  patchNameAndAdress() {
+    this.heroForm.patchValue({
+      name: this.hero.name,
+      address: this.hero.addresses[0] || new Address(),
+    });
+  }
 
 }
